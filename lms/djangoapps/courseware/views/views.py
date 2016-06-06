@@ -737,6 +737,13 @@ def _progress(request, course_key, student_id):
         and certs_api.cert_generation_enabled(course_key)
     )
 
+    # If current certificate is invalidated by instructor
+    # then don't show the generate button.
+    certificate_invalidated = False
+    if show_generate_cert_btn and certs_api.is_certificate_invalid(student, course_key):
+        show_generate_cert_btn = False
+        certificate_invalidated = True
+
     context = {
         'course': course,
         'courseware_summary': courseware_summary,
@@ -747,7 +754,8 @@ def _progress(request, course_key, student_id):
         'passed': is_course_passed(course, grade_summary),
         'show_generate_cert_btn': show_generate_cert_btn,
         'credit_course_requirements': _credit_course_requirements(course_key, student),
-        'missing_required_verification': missing_required_verification
+        'missing_required_verification': missing_required_verification,
+        'certificate_invalidated': certificate_invalidated,
     }
 
     if show_generate_cert_btn:
