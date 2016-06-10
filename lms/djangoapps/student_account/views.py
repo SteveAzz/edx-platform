@@ -41,7 +41,6 @@ from openedx.core.djangoapps.user_api.accounts.api import request_password_chang
 from openedx.core.djangoapps.user_api.errors import UserNotFound
 
 from pytz import common_timezones
-from django.conf import settings
 
 AUDIT_LOG = logging.getLogger("audit")
 
